@@ -1,0 +1,44 @@
+{
+  "name": "dsh-turing-balance",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 插件（独立包）：在 DSH Web 的会话头部显示图灵平台（Turing）套餐余额/本月剩余额度。host 半区注册设置段 turing-balance: 与只读 HTTP 路由 GET /turing-balance（用凭据引用请求 {baseURL}/users/me/usage，带 TTL 缓存）；client 半区把余额徽章挂进 conversation.session.header.actions。",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/host.test.mjs test/client.test.mjs"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-credentials": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-launch-environment": "^0.1.5-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "devDependencies": {
+    "react": "^18.3.1",
+    "react-test-renderer": "^18.3.1"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  }
+}

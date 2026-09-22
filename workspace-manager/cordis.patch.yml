@@ -1,0 +1,13 @@
+# dsh-workspace-manager — bundle patch
+#
+# 只有一条 insert：把本插件挂进 profile 的层栈。
+#
+# 刻意不做任何 disabled / 覆盖：本插件
+#   - 宿主侧只注册一个自有 RPC 端点，只读使用内核服务；
+#   - 客户端只包装 `ctx.workspaces.list` 这一个模型（过滤 items + 并入
+#     archivedSessionIds），并新增一个 `settings.section` 项；
+#   - 不接管 sidebar.workspaces，不替换 workspace / session-projection-cache，
+#     不 shadow 任何槽位。
+- insert:
+    - id: dsh-workspace-manager
+      name: 'dsh-workspace-manager'

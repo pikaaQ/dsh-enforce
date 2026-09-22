@@ -1,0 +1,16 @@
+# dsh-turing-web-search — bundle 层挂载补丁（官方安装机制）
+#
+# 本包 package.json 声明 `dsh.bundle.patch: ./cordis.patch.yml`，此文件作为
+# profile 的 bundle 层 patch 应用（`- insert:` 语义，新增 `turing-web-search` 条目）。
+# 由以下任一方式触发：
+#   - `dsh plugin --profile web add <本目录>`（pnpm 安装 + 自动登记 bundles），或
+#   - 手动：把 `dsh-turing-web-search` 加进 profiles/web/package.json 的
+#     dsh.profile.bundles（配合 profile node_modules 的 junction 让包可解析）。
+# 两者都必须用 `- insert:`：profile patch 是「针对性补丁」语义，裸 `- id: ...`
+# 会被当作对不存在条目的补丁而告警跳过（patch: entry "turing-web-search" not found）。
+#
+# 与 shipped 的 web-search-deepseek（Claude/DeepSeek /messages 模型路线）互斥可选：
+# 同时只启用其中一个搜索提供商（ctx.web 按“唯一可用提供商”选择，两个都启用会报歧义）。
+- insert:
+    - id: turing-web-search
+      name: dsh-turing-web-search

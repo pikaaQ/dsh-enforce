@@ -1,0 +1,35 @@
+{
+  "name": "dsh-plugin-toggle",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 插件（独立包）：只处理**插件管理**——在 shipped 的「设置 → 插件 → 插件列表」页（ui-settings-plugin-inventory，经 scripts/patch-plugins-inventory-bundle.mjs 打入）**不新增按钮**，直接复用每张插件卡片行尾现有的状态徽章（configTag，已启用/已停用）作为开关：点击徽章即停用/启用该 loader 条目。停用只写入 $DSH_HOME/cordis.patch.yml 的 `disabled: true`（home 层，加载器热加载、重启保留），启用即恢复；对 web-search-deepseek 会连带清空/恢复 web.searchProvider（config: {}），保证「搜索关闭 / 打开」语义完整。**官方核心条目保护（v3）**：维持 dsh 启动/传输/设置与插件管理入口的行（T0）锁定不可停用（host 同表强制），官方核心服务行（T1）停用前弹二次确认；条目 config 可扩展 protectedEntries / confirmEntries；手动编辑 patch 仍可绕过（UI 只防误点）。本插件自身条目的徽章不生效。模型提供商的「停用 / 启用」见独立插件 dsh-provider-manager（E:\\JavaScript\\dsh-enforce\\provider-manager）；Web 搜索（图灵 Baidu/Tavily）见 dsh-turing-web-search（E:\\JavaScript\\dsh-enforce\\turing-web-search）。",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-gateway"
+      ],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-home-paths": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-typert-protocol": "^0.1.5-rc.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  }
+}

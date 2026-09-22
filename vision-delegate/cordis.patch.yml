@@ -1,0 +1,13 @@
+# dsh-vision-delegate — bundle 层挂载补丁（官方安装机制）
+#
+# 本包 package.json 声明 `dsh.bundle.patch: ./cordis.patch.yml`。用以下任一方式触发：
+#   - `dsh plugin --profile web add <本目录>`（pnpm 安装 + 自动登记 bundles），或
+#   - 手动：把 `dsh-vision-delegate` 加进 profiles/web/package.json 的 dsh.profile.bundles
+#     （配 profile node_modules 里的 junction 让包可解析）。
+#
+# 注意：bundle 层与 patch 层二选一。若已把本插件挂在 profiles/web/cordis.patch.yml
+# （热监听、与 dsh-turing-balance 同层，见 README 的安装说明），就不要再走 bundle 层，
+# 否则冷启动会报 duplicate loader entry id: vision-delegate。
+- insert:
+    - id: vision-delegate
+      name: dsh-vision-delegate

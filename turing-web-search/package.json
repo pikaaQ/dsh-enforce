@@ -1,0 +1,40 @@
+{
+  "name": "dsh-turing-web-search",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 插件（独立包）：向 ctx.web 注册图灵（Turing）独立搜索端点（路径 B，对照 live-turing-docs）的搜索提供商（engine: baidu|tavily|firecrawl|cloudsway|bing，纯搜索引擎、不走模型、无模型费），与 shipped 的 web-search-deepseek（/messages 模型路线）按启用的插件互斥选择。host 半区注册 settings 段 web-search-turing:（engine/baseURL/apiKeyEnv，settings-file watch 热生效）并按引擎路由表请求/解析；client 半区在 设置 → 插件 → 插件配置 提供图灵端点卡片（5 个端点预置 + baseURL 覆盖）。",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-api-remotes"
+      ],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-credentials": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-launch-environment": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-web": "^0.1.5-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  }
+}

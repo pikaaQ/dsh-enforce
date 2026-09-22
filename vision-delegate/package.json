@@ -1,0 +1,37 @@
+{
+  "name": "dsh-vision-delegate",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 插件：把「视觉委派」做成宿主能力。host 半区注册 subagent_vision 工具（spawn 子代理 + agentOptions 固定到用户选定的视觉模型）与调用时守卫，任何 preset 的会话都能用；client 半区在 composer 的 conversation.input.right 放一个三态开关（未配置 / 关 / 自动），并在 设置 → 插件 → 插件配置 提供「视觉委派」卡片选择视觉模型。视觉模型必须显式配置，未配置时开关不可开、调用直接返回可执行提示——没有任何隐式兜底。**依赖 dsh-workspace-manager 提供的会话清理服务 `sessionRemoval`**：spawn 出来的临时视觉子会话在完成后立即删除、插件启动时补删上次的孤儿（可选依赖：服务缺席时优雅降级，视觉功能照常，只是不清理；本插件自己不删文件）。",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  }
+}

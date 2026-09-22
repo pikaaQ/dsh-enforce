@@ -1,0 +1,39 @@
+{
+  "name": "dsh-provider-manager",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 插件（独立包）：只处理**模型提供商**——通过官方插槽 settings.models.footer 在 shipped 的「设置 → 模型」页底部提供「模型提供商 停用/启用」面板（DSH 0.1.5 起；不再对官方 bundle 打补丁），面板列出全部可停用/启用的提供商（含已从目录消失但被本插件停用过的行）。停用只备份配置到 $DSH_HOME/dsh-provider-toggle.state.json（沿用旧文件名）并从 settings 文档移除该段，或停用整段适配器的 loader 条目（$DSH_HOME/cordis.patch.yml，home 层）；配置全部保留、随时可恢复。插件条目的「停用 / 启用」已剥离为独立插件 dsh-plugin-toggle（E:\\JavaScript\\dsh-enforce\\plugin-toggle）；Web 搜索（图灵 Baidu/Tavily）见独立插件 dsh-turing-web-search（E:\\JavaScript\\dsh-enforce\\turing-web-search）。",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-gateway",
+        "@deepseek-ai/dsh-client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-home-paths": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-typert-protocol": "^0.1.5-rc.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  }
+}

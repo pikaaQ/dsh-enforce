@@ -1,0 +1,40 @@
+{
+  "name": "dsh-workspace-manager",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 工作区管理插件：工作区行菜单「关闭」、设置页「工作区 / 会话」（打开开关、会话归档、磁盘清点与「未分组」会话的彻底删除、子会话树与级联删除），并向其它插件发布会话清理宿主服务 sessionRemoval（含父会话登记）",
+  "main": "src/host/index.js",
+  "exports": {
+    ".": {
+      "default": "./src/host/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node scripts/build-client.mjs",
+    "test": "node scripts/build-client.mjs && node --check lib/client.js && node test/offline.mjs && node test/host-rpc.mjs && node test/session-tree.mjs && node test/runtime-promote.mjs && node test/session-removal.mjs && node test/client-harness.mjs && node --test test/remove-session.test.mjs test/transport.test.mjs && node test/unarchive-offline.mjs",
+    "check": "node --check src/host/index.js && node --check src/host/archive-set.js && node --check src/host/claims-store.js && node --check src/host/closed-set.js && node --check src/host/remove-session.js && node --check src/host/session-removal.js && node --check src/host/session-tree.js && node --check src/host/transport.js && node --check src/shared/hidden.js && node --check src/shared/projection.js && node --check src/shared/session-tree.js && node --check scripts/build-client.mjs && node --check lib/client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-connection"
+      ],
+      "platform": "web"
+    }
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  }
+}

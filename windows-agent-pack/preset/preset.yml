@@ -1,0 +1,2 @@
+name: 标准模式·Windows 优化
+description: 复制自官方 standard preset 的 Windows 优化版：persona 内置 Windows 原生命令纪律（PowerShell 5.1/7 差异、编码与路径、文件锁与并发、交互提示、git/npm 特有坑），附带 windows-native-tooling 技能（十二个环境轴的判定与对策 + 报错索引）以及环境探测与安全执行原生命令的脚本。
